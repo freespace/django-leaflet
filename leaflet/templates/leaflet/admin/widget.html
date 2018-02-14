@@ -28,5 +28,15 @@
 {% block map %}
 <div id="{{ id_css }}-div-map">
     {{ block.super }}
+    <script type="text/javascript">
+      window.addEventListener("map:init", function (e) {
+        var osmGeocoder = new L.Control.OSMGeocoder({
+          collapsed: true,
+          email: 'freespace@gmail.com',
+        });
+
+        osmGeocoder.addTo(e.detail.map);
+      });
+    </script>
 </div>
 {% endblock map %}

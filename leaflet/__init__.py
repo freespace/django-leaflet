@@ -127,13 +127,15 @@ PLUGIN_FORMS = 'forms'
 # Assets will be preprended to any existing entry in PLUGINS['forms']
 _forms_js = ['leaflet/draw/leaflet.draw.js',
              'leaflet/leaflet.extras.js',
-             'leaflet/leaflet.forms.js']
+             'leaflet/leaflet.forms.js',
+             'leaflet/OSMGeocoder/Control.OSMGeocoder.js']
 if SRID:
     _forms_js += ['leaflet/proj4js.js',
                   'leaflet/proj4leaflet.js',
                   'proj4js/%s.js' % SRID]
 
-_forms_css = ['leaflet/draw/leaflet.draw.css']
+_forms_css = ['leaflet/draw/leaflet.draw.css',
+              'leaflet/OSMGeocoder/Control.OSMGeocoder.css']
 _forms_plugins = PLUGINS.setdefault(PLUGIN_FORMS, {})
 _forms_plugins['js'] = _forms_js + _forms_plugins.get('js', [])
 _forms_plugins['css'] = _forms_css + _forms_plugins.get('css', [])
