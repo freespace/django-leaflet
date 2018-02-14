@@ -128,14 +128,17 @@ PLUGIN_FORMS = 'forms'
 _forms_js = ['leaflet/draw/leaflet.draw.js',
              'leaflet/leaflet.extras.js',
              'leaflet/leaflet.forms.js',
-             'leaflet/OSMGeocoder/Control.OSMGeocoder.js']
+             'leaflet/OSMGeocoder/Control.OSMGeocoder.js',
+             'https://unpkg.com/esri-leaflet@2.1.2/dist/esri-leaflet.js',
+             'leaflet/MousePosition/L.Control.MousePosition.js',]
 if SRID:
     _forms_js += ['leaflet/proj4js.js',
                   'leaflet/proj4leaflet.js',
                   'proj4js/%s.js' % SRID]
 
 _forms_css = ['leaflet/draw/leaflet.draw.css',
-              'leaflet/OSMGeocoder/Control.OSMGeocoder.css']
+              'leaflet/OSMGeocoder/Control.OSMGeocoder.css',
+              'leaflet/MousePosition/L.Control.MousePosition.css',]
 _forms_plugins = PLUGINS.setdefault(PLUGIN_FORMS, {})
 _forms_plugins['js'] = _forms_js + _forms_plugins.get('js', [])
 _forms_plugins['css'] = _forms_css + _forms_plugins.get('css', [])

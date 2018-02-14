@@ -29,13 +29,43 @@
 <div id="{{ id_css }}-div-map">
     {{ block.super }}
     <script type="text/javascript">
-      window.addEventListener("map:init", function (e) {
-        var osmGeocoder = new L.Control.OSMGeocoder({
-          collapsed: true,
-          email: 'freespace@gmail.com',
+      function setupMap(map) {
+        // default view to over new york
+        map.setView([40.7128, -74.0060], 12);
+
+        // remove any layer added by django-leaflet
+        map.eachLayer(function (l) {
+          map.removeLayer(l);
         });
 
-        osmGeocoder.addTo(e.detail.map);
+        L.esri.basemapLayer('Imagery').addTo(map);
+        L.esri.basemapLayer('ImageryLabels').addTo(map);
+
+        var osmGeocoder = new L.Control.OSMGeocoder({
+          collapsed: false,
+          email: 'freespace@gmail.com',
+          callback: function(r) {
+            if (r != null && r.length > 0) {
+              var c = L.latLng(r[0].lat, r[0].lon);
+              console.log(c);
+              map.setView(c, 17);
+            }
+          }
+        });
+
+        osmGeocoder.addTo(map);
+
+        L.control.mousePosition({
+                               numDigits: 6,
+                               prefix: 'Lat/Lng:',
+                               separator: ','
+        }).addTo(map);
+
+      };
+
+      window.addEventListener("map:init", function (e) {
+        var map = e.detail.map;
+        setupMap(map);
       });
     </script>
 </div>
