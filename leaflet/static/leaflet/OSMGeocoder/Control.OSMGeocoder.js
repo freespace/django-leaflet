@@ -87,8 +87,17 @@ L.Control.OSMGeocoder = L.Control.extend({
 		return result;
 	},
 	_isLatLon : function (q) {
-		//"lon lat" => xx.xxx x.xxxxx
-		var re = /(-?\d+\.\d+)\s(-?\d+\.\d+)/;
+	  if (q.length < 3) return null;
+
+	  // if one and only one , exists then remove it sl
+	  // `$lat, $lon` is recognised the same as `$lat $lon`
+    if (q.match(/,/g).length == 1) {
+      q = q.replace(',', ' ');
+    }
+    console.log(q);
+
+		//"lat lon" => xx.xxx x.xxxxx
+		var re = /(-?\d+\.\d+)\s+(-?\d+\.\d+)/;
 		var m = re.exec(q);
 		if (m != undefined) return m;
 
