@@ -154,3 +154,6 @@ ENV/
 # End of https://www.gitignore.io/api/django,intellij+iml,python
 
 /.idea
+
+# ctags
+tags
