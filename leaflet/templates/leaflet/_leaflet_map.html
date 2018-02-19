@@ -7,7 +7,8 @@
     function loadmap() {
         var djoptions = {% autoescape off %}{{ djoptions }}{% endautoescape %},
             options = {djoptions: djoptions, initfunc: loadmap,
-                       globals: {{ NO_GLOBALS|yesno:"false,true"}}, callback: {{ callback|default:"null" }}},
+                       globals: {{ NO_GLOBALS|yesno:"false,true"}}, callback: {{ callback|default:"null" }},
+                       contextmenu:true},
             map = L.Map.djangoMap('{{ name }}', options);
         {% if not NO_GLOBALS %}
         window['leafletmap' + '{{ name }}'] = map;

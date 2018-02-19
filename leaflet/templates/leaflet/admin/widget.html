@@ -14,6 +14,11 @@
     .module .leaflet-draw ul li {
         list-style-type: none;
     }
+
+    .leaflet-contextmenu {
+        background: #fff;
+        padding: 5px;
+    }
 {% endblock map_css %}
 
 
@@ -61,6 +66,12 @@
                                separator: ','
         }).addTo(map);
 
+        map.contextmenu.addItem({
+          text:'Show coordinates',
+          callback: function (ev) {
+            L.popup().setLatLng(ev.latlng).setContent('Lat/Lng: '+ ev.latlng.lat.toFixed(6) + ',' + ev.latlng.lng.toFixed(6)).openOn(map);
+        },
+      });
       };
 
       window.addEventListener("map:init", function (e) {
