@@ -130,7 +130,9 @@ _forms_js = ['leaflet/draw/leaflet.draw.js',
              'leaflet/leaflet.forms.js',
              'leaflet/OSMGeocoder/Control.OSMGeocoder.js',
              'https://unpkg.com/esri-leaflet@2.1.2/dist/esri-leaflet.js',
-             'leaflet/MousePosition/L.Control.MousePosition.js',]
+             'leaflet/MousePosition/L.Control.MousePosition.js',
+             'leaflet/leaflet.contextmenu.js',
+             ]
 if SRID:
     _forms_js += ['leaflet/proj4js.js',
                   'leaflet/proj4leaflet.js',
