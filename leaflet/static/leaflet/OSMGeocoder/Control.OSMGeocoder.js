@@ -159,11 +159,11 @@ L.Control.OSMGeocoder = L.Control.extend({
 			var m = this._isLatLon_gdal(q);
 			//m: [lng deg, lng min, lng sec, ew, lat deg, lat min, lat sec, ns]
 			//    1        2        3 ...                                   8
-	    var lng = m[1]/1 + m[2]/60 + m[3]/360;
+	    var lng = m[1]/1 + m[2]/60 + m[3]/3600;
 	    console.log(lng);
 	    if (m[4] == 'w') lng *= -1;
 
-	    var lat = m[5]/1 + m[6]/60 + m[7]/360;
+	    var lat = m[5]/1 + m[6]/60 + m[7]/3600;
 	    if (m[8] == 's') lat *= -1;
 
 			this.options.callback.call(this,this._createSearchResult(
