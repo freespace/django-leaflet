@@ -112,13 +112,20 @@ L.Control.OSMGeocoder = L.Control.extend({
 		console.log("is LatLon?: "+q);
 		//N 53° 13.785' E 010° 23.887'
 		//re = /[NS]\s*(\d+)\D*(\d+\.\d+).?\s*[EW]\s*(\d+)\D*(\d+\.\d+)\D*/;
-		re = /([ns])\s*(\d+)\D*(\d+\.\d+).?\s*([ew])\s*(\d+)\D*(\d+\.\d+)/i;
-		m = re.exec(q.toLowerCase());
+		var re = /([ns])\s*(\d+)\D*(\d+\.\d+).?\s*([ew])\s*(\d+)\D*(\d+\.\d+)/i;
+		var m = re.exec(q.toLowerCase());
 		//showRegExpResult(m);
 		if ((m != undefined)) return m;
 		else return null;
 		// +- dec min +- dec min
 	},
+
+	_isLatLon_gdal: function(q) {
+	  var re = /(\d+)d(\d+)'(\d+\.\d+)"([ew]), (\d+)d(\d+)'(\d+\.\d+)"([ns])/i;
+    var m = re.exec(q.toLowerCase());
+    if (m != undefined) return m;
+    else return null;
+  },
 
 	_geocode : function (event) {
 		L.DomEvent.preventDefault(event);
@@ -128,7 +135,7 @@ L.Control.OSMGeocoder = L.Control.extend({
 		{
 			var m = this._isLatLon(q);
 			console.log("LatLon: "+m[1]+" "+m[2]);
-			//m = {lon, lat}
+			//m = {lat, lon}
 			this.options.callback.call(this, this._createSearchResult(m[1],m[2]));
 			return;
 		}
@@ -146,7 +153,25 @@ L.Control.OSMGeocoder = L.Control.extend({
 				temp[m[4]]*(Number(m[5]) + m[6]/60)
 			));
 			return;
-		}
+		} 
+		else if (this._isLatLon_gdal(q) != null)
+    {
+			var m = this._isLatLon_gdal(q);
+			//m: [lng deg, lng min, lng sec, ew, lat deg, lat min, lat sec, ns]
+			//    1        2        3 ...                                   8
+	    var lng = m[1]/1 + m[2]/60 + m[3]/360;
+	    console.log(lng);
+	    if (m[4] == 'w') lng *= -1;
+
+	    var lat = m[5]/1 + m[6]/60 + m[7]/360;
+	    if (m[8] == 's') lat *= -1;
+
+			this.options.callback.call(this,this._createSearchResult(
+			  Number(lat),
+			  Number(lng),
+			));
+			return;
+    }
 
 		//and now Nominatim
 		//http://wiki.openstreetmap.org/wiki/Nominatim
